@@ -1,0 +1,48 @@
+﻿@model FacebookAppTest.ViewModel.PostListViewModel
+@{
+}
+
+
+<h2>Posts</h2>
+<div>
+    @using (Html.BeginForm("CreatePost","Facebook",FormMethod.Post))
+    {
+       @Html.Hidden("pageId", Model.pageId)
+       @Html.TextArea("message", "", 3, 30, new { @placeholder = "Create new Post" })
+        <input type="Submit" class="btn btn-primary" value="Create Post" />
+
+    }
+</div>
+
+
+<div class="row" style="margin-top:50px">
+    <div class="col-md-7 col-md-offset-2">
+
+        @foreach (var post in Model.postViewModel)
+        {
+            <div class="jumbotron">
+                <h2>@post.Post</h2>
+                @foreach (var comment in post.comments)
+                {
+                    <div>
+                       <span>@comment.from.name:</span> <p class="well">@comment.message</p>
+                    </div>
+
+
+                }
+            
+
+        @using (Html.BeginForm())
+        {
+            @Html.TextArea("Comment","",3,30,new { @placeholder = "Comment" })
+            <input type="submit" value="Comment" />
+
+        }
+        </div>
+ }
+
+    </div>
+</div>
+
+       
+   

@@ -1,0 +1,25 @@
+﻿@model FacebookAppTest.ViewModel.account
+@{
+}
+<h2>Your Facebook Pages</h2>
+
+<table class="table">
+    <tr>
+        <th>Page Name</th>
+        <th>Page Id</th>
+    </tr>
+    @foreach(var item in Model.data){ 
+        
+        <tr>
+            <td>
+               @Html.ActionLink(item.name,"Page",new {id=item.id})|
+            </td>
+
+            <td>
+                @item.id
+            </td>
+        </tr>
+        
+      
+    }
+</table>
