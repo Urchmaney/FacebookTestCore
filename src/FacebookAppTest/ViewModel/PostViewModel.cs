@@ -9,6 +9,8 @@ namespace FacebookAppTest.ViewModel
     {
         public string Post { get; set; }
 
+        public string PostId { get; set; }
+
         public List<comment> comments { get; set; }
 
        

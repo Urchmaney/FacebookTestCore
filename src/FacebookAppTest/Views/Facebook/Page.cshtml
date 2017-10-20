@@ -32,8 +32,10 @@
                 }
             
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Comment", "Facebook", FormMethod.Post))
         {
+            @Html.Hidden("pageId", Model.pageId)
+            @Html.Hidden("postId", post.PostId)
             @Html.TextArea("Comment","",3,30,new { @placeholder = "Comment" })
             <input type="submit" value="Comment" />
 

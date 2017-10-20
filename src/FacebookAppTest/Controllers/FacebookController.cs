@@ -96,7 +96,7 @@ namespace FacebookAppTest.Controllers
 
                 var model = await ServiceWorker.GetFromUrlClient<Comments>(commentUrl);
                 
-                posts.postViewModel.Add(new PostViewModel { Post = p.message, comments = model.comments.data });
+                posts.postViewModel.Add(new PostViewModel { Post = p.message,PostId=p.id, comments = model.comments.data });
 
             }
             return View(posts);
@@ -116,16 +116,20 @@ namespace FacebookAppTest.Controllers
         {
             string pageTokenUrl = string.Format("https://graph.facebook.com/v2.10/{0}?fields=access_token&access_token={1}", pageId, HttpContext.Session.GetString("access_token"));
             var token= await ServiceWorker.GetFromUrlClient<pageAccess>(pageTokenUrl);
-            string url = string.Format("https://graph.facebook.com/{0}?fields=feed&message={1}&access_token={2}", pageId,message, token.access_token);
-            var model = await ServiceWorker.PostToUrlClient<PagePosts>(url);
+            string url = string.Format("https://graph.facebook.com/{0}/feed",pageId);
+            var model = await ServiceWorker.PostToUrlClient<PagePosts>(url,token.access_token,message);
             return View("Success");
 
         }
 
-        //[HttpPost]
-        //public IActionResult Comment()
-        //{
-
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Comment(string postId ,string Comment,string pageId)
+        {
+            string pageTokenUrl = string.Format("https://graph.facebook.com/v2.10/{0}?fields=access_token&access_token={1}", pageId, HttpContext.Session.GetString("access_token"));
+            var token = await ServiceWorker.GetFromUrlClient<pageAccess>(pageTokenUrl);
+            string url = string.Format("https://graph.facebook.com/{0}/comments", postId);
+            var model = await ServiceWorker.PostToUrlClient<PagePosts>(url, token.access_token, Comment);
+            return View("Success");
+        }
     }
 }
